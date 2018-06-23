@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @company.name %>
+</p>
+
+<%= form_with(model: [ @company, @employee ], local: true) do |form| %>
+  <%= form.hidden_field :company_id, value: @company.id %>
+  <h5>Create New Employee</h5>
+  <p>Name</p>
+    <%= form.text_field :name%> <br><br>
+  <p>Last Name</p>
+    <%= form.text_field :last_name%> <br><br>
+  <p>E-mail</p>
+    <%= form.text_field :email%> <br><br>
+  <p>Área</p>
+    <%= form.text_field :areas%> <br><br>
+    <%= form.submit 'Crear' %>
+<% end %>
+
+<%= link_to 'Edit', edit_company_path(@company) %> |
+<%= link_to 'Back', companies_path %>
+<h1>
+<strong>Employee list of: </strong>
+<%= @company.name %>
+</h1>
+<div class="">
+<ul>
+  <% @company.employees.each do |employee| %>
+    <li><% employee.name %></li>
+    <li><% employee.last_name %></li>
+    <li><% employee.areas %></li>
+    <li><% employee.email %></li>
+  <% end %>
+</ul>
+</div>
