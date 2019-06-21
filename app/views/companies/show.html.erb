@@ -5,17 +5,18 @@
   <%= @company.name %>
 </p>
 
+
 <%= form_with(model: [ @company, @employee ], local: true) do |form| %>
   <%= form.hidden_field :company_id, value: @company.id %>
   <h5>Create New Employee</h5>
   <p>Name</p>
-    <%= form.text_field :name%> <br><br>
+    <%= form.text_field :name %> <br><br>
   <p>Last Name</p>
-    <%= form.text_field :last_name%> <br><br>
+    <%= form.text_field :last_name %> <br><br>
   <p>E-mail</p>
-    <%= form.text_field :email%> <br><br>
+    <%= form.text_field :email %> <br><br>
   <p>Área</p>
-    <%= form.select :area_id, Area.all.collect{|x| [x.name, x.id]}, id: :employee_area_id, prompt: "Select Area"%> <br><br>
+    <%= form.select :area_id, @areas.collect{|x| [x.name, x.id]}, id: :employee_area_id, prompt: "Select Area"%> <br><br>
     <%= form.submit 'Crear' %>
 <% end %>
 
@@ -25,7 +26,6 @@
 
 <table class="table table-hover">
     <thead>
-
          <th>
            <th scope="col">Name</th>
            <th scope="col">Last Name</th>
@@ -36,15 +36,17 @@
      </thead>
      <% @company.employees.each do |employee| %>
      <tbody>
-    <tr>
-      <th>
-      <td><%= employee.name %></td>
-      <td><%= employee.last_name %></td>
-      <td><%= employee.email %></td>
-      <td><%= employee.area %></td>
-      <td>  <%= link_to "delete", company_employee_path(@company, employee),
-     method: :delete %></td>
-   </th>
-    </tr>
-       <% end %>
+        <tr>
+          <th>
+          <td><%= employee.name %></td>
+          <td><%= employee.last_name %></td>
+          <td><%= employee.email %></td>
+          <td><%= employee.area %></td>
+          <td><%= employee.company %></td>
+          <td><%= link_to "Delete", company_employee_path(@company, employee),
+         method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </th>
+        </tr>
+      </tbody>
+      <% end %>
 </table>

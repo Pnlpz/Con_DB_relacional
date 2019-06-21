@@ -5,13 +5,14 @@ class CompaniesController < ApplicationController
   # GET /companies.json
   def index
     @companies = Company.all
+    @areas = Area.all
   end
 
   # GET /companies/1
   # GET /companies/1.json
   def show
-  @company = Company.find(params[:id])
   @employee = Employee.new
+  @areas = Area.all
   end
 
   # GET /companies/new
@@ -27,7 +28,6 @@ class CompaniesController < ApplicationController
   # POST /companies.json
   def create
     @company = Company.new(company_params)
-
     respond_to do |format|
       if @company.save
         format.html { redirect_to @company, notice: 'Company was successfully created.' }
@@ -56,7 +56,6 @@ class CompaniesController < ApplicationController
   # DELETE /companies/1
   # DELETE /companies/1.json
   def destroy
-    @company = Company.find(params[:id])
     @company.destroy
     respond_to do |format|
       format.html { redirect_to companies_url, notice: 'Company was successfully destroyed.' }

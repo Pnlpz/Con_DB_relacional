@@ -1,15 +1,25 @@
 class EmployeesController < ApplicationController
 
   def create
-  employee = Employee.new(employee_params)
-  employee.save
-  redirect_to employee.company
+  @employee = Employee.new(employee_params)
+  respond_to do |format|
+      if @employee.save
+        format.html { redirect_to @employee.company, notice: 'Employee was successfully created.' }
+        format.json { render :show, status: :created, location: @employee }
+      else
+        format.html { render :new }
+        format.json { render json: @employee.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def destroy
     @employee = Employee.find(params[:id])
     @employee.destroy
-    redirect_to @employee.company
+    respond_to do |format|
+      format.html { redirect_to @employee.company, notice: 'Employee was successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
 
   private
