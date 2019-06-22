@@ -9,16 +9,16 @@
 <%= form_with(model: [ @company, @employee ], local: true) do |form| %>
   <%= form.hidden_field :company_id, value: @company.id %>
   <h5>Create New Employee</h5>
-  <p>Name</p>
+    <%= form.label "Nombre" %>
     <%= form.text_field :name %> <br><br>
-  <p>Last Name</p>
+    <%= form.label "Apellido" %>
     <%= form.text_field :last_name %> <br><br>
-  <p>E-mail</p>
+    <%= form.label "Email" %>
     <%= form.text_field :email %> <br><br>
-  <p>Área</p>
-    <%= form.select :area_id, @areas.collect{|x| [x.name, x.id]}, id: :employee_area_id, prompt: "Select Area"%> <br><br>
-    <%= form.submit 'Crear' %>
-<% end %>
+    <%= form.label "Area" %>
+    <%= form.select :area_id, @areas.pluck(:name, :id), prompt: "Select Area"%> <br><br>
+    <%= form.submit 'Crear' %>  <!-- puede ser @areas.map o @areas.collect{|x| x.name, x.id}, para listar todas las áreas-->
+<% end %>                       <!-- también se puede usar @areas.pluck(:name, :id) en vez de .map o .collect (es más rápido y eficiente)-->
 
 <%= link_to 'Edit', edit_company_path(@company) %> |
 <%= link_to 'Back', companies_path %>
@@ -31,7 +31,7 @@
            <th scope="col">Last Name</th>
            <th scope="col">Email</th>
            <th scope="col">Area</th>
-           <th scope="col">Action</th>
+           <th scope="col">Company</th>
          </th>
      </thead>
      <% @company.employees.each do |employee| %>
@@ -41,8 +41,8 @@
           <td><%= employee.name %></td>
           <td><%= employee.last_name %></td>
           <td><%= employee.email %></td>
-          <td><%= employee.area %></td>
-          <td><%= employee.company %></td>
+          <td><%= employee.area.name if employee.area %></td>
+          <td><%= employee.company.name %></td>
           <td><%= link_to "Delete", company_employee_path(@company, employee),
          method: :delete, data: { confirm: 'Are you sure?' } %></td>
           </th>
